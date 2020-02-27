@@ -15,36 +15,32 @@ var tablero = [["0","","","","","","","","","","","","","","","","","1"],
 ["86","87","","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117"]];
 Elemento actual;
 let created = false;
-let cX,cY;
 void draw(){
   background(255);
   if(!created){
     llenarMatriz();
-    actual = piezas[0];
-    cX = actual.x;
-    cY = actual.Y;
+    actual = piezas.shift();
     created = true;
   }
   pintarTabla();  
   actual.paint();
   actual.move();
   actual.setVisible();
- // getElement(mouseX,mouseY);
   text("X: " + actual.x + "" + " y: " + actual.y, 1000,50)
-  
-}
-
-void mouseClicked(){
 }
 
 void keyPressed(){
-  if(keyCode==LEFT)actual.x-=actual.h;
+  if(keyCode==LEFT)actual.x-=actual.h;  
   if(keyCode==RIGHT)actual.x+=actual.h;
-  if(keyCode == UP)getElement((actual.x)+actual.h,actual.y);
+  if(keyCode==DOWN)actual.y+=actual.h;
+  if(keyCode == UP){
+    let simbol = actual.simbolo;
+   if(encontrado((actual.x)+actual.h,actual.y,simbol))
+      actual = piezas.shift()
+  }
   if(key == 'w') actual.y-=actual.h;
 
-
-}
+  } 
 
 void crearMatriz(){
   for(var i =0;i<7;i++){
@@ -57,7 +53,6 @@ void pintarTabla(){
   for(var i = 0;i<7;i++){
     for(var j = 0;j<18;j++){
        if(tablero[i][j]!=""){
-
          tabla[i][j].paint();
        }
     }
@@ -71,7 +66,7 @@ void llenarMatriz(){
     desfaseY =(i*h);
     for(var j =0;j<18;j++){
       if(tablero[i][j]!=""){
-          piezas.push(new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,2));
+          piezas.push(new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
           tabla[i][j] = new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
       }            
     }
@@ -79,26 +74,24 @@ void llenarMatriz(){
 }
 
 
-void getElement(x,y){
+function encontrado(x,y,simbolo){
   for(var i=0;i<7;i++){
     for(var j = 0;j<18;j++){
       if(tablero[i][j]!=""){
          Elemento elemento = tabla[i][j];
-         if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))){
+         if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))&&(elemento.simbolo==simbolo)){
             elemento.setVisible();
-            //println(elemento.simbolo);
-              //text("SELECTED -> X: " + elemento.x + "" + " y: " + elemento.y, 1000,100)
-
+            return true;
          }
-       }
-     
-
+       } 
     }
   }
+  return false;
 }
 
+
 class Elemento{
-  let h,x,y,dy,dx,nombre,simbolo,numero, visible;
+  let h,x,y,dy,dx,nombre,simbolo,numero, visible,agregado;
   Elemento(numero,simbolo,nombre,x,y,h,dx,dy){
     this.numero = numero;
     this.simbolo = simbolo;
@@ -110,6 +103,7 @@ class Elemento{
     this.dy = dy;
     this.visible = false;
   }
+
   Elemento(numero,simbolo,nombre,bloque,x,y,h,dx,dy){
     this.numero = numero;
     this.simbolo = simbolo;
@@ -121,6 +115,7 @@ class Elemento{
     this.dx = dx;
     this.dy = dy;
     this.visible = false;
+    this.agregado = false;
   }
 
     void paint(){
@@ -158,6 +153,11 @@ class Elemento{
       //this.move();
 
   }
+
+  void agregado(){
+    this.agregado = true;
+  }
+
   void setVisible(){
     this.visible = true;
   }
