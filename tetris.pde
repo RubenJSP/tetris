@@ -35,8 +35,13 @@ void keyPressed(){
   if(keyCode==DOWN)actual.y+=actual.h;
   if(keyCode == UP){
     let simbol = actual.simbolo;
-   if(encontrado((actual.x)+actual.h,actual.y,simbol))
+   if(encontrado((actual.x)+actual.h,actual.y,simbol)){
       actual = piezas.shift()
+   }
+    else{
+      actual.x = 350;
+      actual.y = 0;
+    }
   }
   if(key == 'w') actual.y-=actual.h;
 

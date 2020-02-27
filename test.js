@@ -1,7 +1,7 @@
 
 var datos = [];
 function gets(){
-     $.getJSON('data.json', function (data) {
+     $.getJSON({url: 'data.json', async: false}, (data) => {
      		for (var i=0; i<118; i++) {
      			datos.push({
      				"bloque": data[i].groupBlock,
@@ -9,10 +9,10 @@ function gets(){
      				"nombre": data[i].name
      			});
      		}
-        
       });
 
 }
+
 function getData(){
  gets();
  return datos;
