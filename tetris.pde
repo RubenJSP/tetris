@@ -15,26 +15,35 @@ var tablero = [["0","","","","","","","","","","","","","","","","","1"],
 ["86","87","","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117"]];
 Elemento actual;
 let created = false;
+let cX,cY;
 void draw(){
   background(255);
   if(!created){
     llenarMatriz();
-    actual = piezas[49];
+    actual = piezas[0];
+    cX = actual.x;
+    cY = actual.Y;
     created = true;
   }
   pintarTabla();  
-  /*actual.paint();
+  actual.paint();
   actual.move();
-  actual.setVisible();*/
+  actual.setVisible();
+ // getElement(mouseX,mouseY);
+  text("X: " + actual.x + "" + " y: " + actual.y, 1000,50)
+  
 }
 
 void mouseClicked(){
-  getElement(mouseX,mouseY);
 }
 
 void keyPressed(){
-  if(keyCode==LEFT)actual.dx-=actual.h;
-  if(keyCode==RIGHT)actual.dx+=actual.h;
+  if(keyCode==LEFT)actual.x-=actual.h;
+  if(keyCode==RIGHT)actual.x+=actual.h;
+  if(keyCode == UP)getElement((actual.x)+actual.h,actual.y);
+  if(key == 'w') actual.y-=actual.h;
+
+
 }
 
 void crearMatriz(){
@@ -76,7 +85,10 @@ void getElement(x,y){
       if(tablero[i][j]!=""){
          Elemento elemento = tabla[i][j];
          if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))){
-          println(elemento.simbolo);
+            elemento.setVisible();
+            //println(elemento.simbolo);
+              //text("SELECTED -> X: " + elemento.x + "" + " y: " + elemento.y, 1000,100)
+
          }
        }
      
@@ -150,7 +162,7 @@ class Elemento{
     this.visible = true;
   }
   void move(){
-    if(this.y<921)
+    if(this.y<930)
       this.y+=this.dy;
   }
 
