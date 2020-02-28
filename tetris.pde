@@ -96,17 +96,16 @@ void llenarMatriz(){
 
 function elementoRandom(){
   var index ,length = piezas.length
-  for(var i=0  ;i<length;i++){
+  for(var i=0;i<length;i++){
     index = int(random(length)-1);
-    let element = piezas[index]
-      
+      Elemento element = piezas[index];
+      if(!element.agregado)
+        return piezas[index];
+      else
+        continue;
     }
-    index = int(random(length)-1);
-    return piezas[index];
-    
+    return piezas[0];    
 }
-
-
 
 function vidas(){
 
