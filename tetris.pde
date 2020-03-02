@@ -1,9 +1,11 @@
 var tabla = [];
 var data = getData();
 var piezas =[];
+var salud = 200,damage=20;
+PImage vidaIcono;
 Elemento actual;
 var created = false;
-var actualIndex = 1;
+var actualIndex = 1,nivel=0;
 var tablero = [["0","","","","","","","","","","","","","","","","","1"],
 ["2","3","","","","","","","","","","","4","5","6","7","8","9"],
 ["10","11","","","","","","","","","","","12","13","14","15","16","17"],
@@ -15,7 +17,8 @@ var tablero = [["0","","","","","","","","","","","","","","","","","1"],
 void setup(){
   size(1261,1000);
   crearMatriz();
-}
+  vidaIcono = loadImage("src/vida.png");
+  }
 
 void draw(){
   background(255);
@@ -25,16 +28,23 @@ void draw(){
     actual = elementoRandom()
     created = true;
   }
+  if(actual.y>=1000 && salud>0)
+    salud-=damage;
   pintarTabla();  
   actual.paint();
   actual.move();
   actual.setVisible();
   textSize(16);
-  text("X: " + actual.x + "" + " y: " + actual.y, 1000,50)
-  text("W: " + width + "" + " H: " + height, 1000,100)
+  vidas(1050,50,salud);
+  //text("X: " + actual.x + "" + " y: " + actual.y, 1000,100)
+  //text("W: " + width + "" + " H: " + height, 1000,100)
 }
 
 //FUNCIONES
+
+void setNivel(){
+
+}
 
 void keyPressed(){
   if(keyCode==LEFT)
@@ -54,6 +64,8 @@ void keyPressed(){
       actual = elementoRandom()
    }
     else{
+      if(salud>0)
+        salud-=damage;
       actual.x = 350;
       actual.y = 0;
     }
@@ -107,8 +119,13 @@ function elementoRandom(){
     return piezas[0];    
 }
 
-function vidas(){
-
+function vidas(x,y,vida){
+  image(vidaIcono,x-55,y-9,45,45);
+  stroke(3);
+  fill(255);
+  rect(x,y,200,30);
+  fill(59, 229, 13);
+  rect(x,y,vida,30);
 }
 
 function marcador(){
@@ -118,6 +135,11 @@ function marcador(){
 
 
 function barraProgreso(){
+
+}
+
+
+function gameOver(){
 
 }
 
