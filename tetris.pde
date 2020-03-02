@@ -1,11 +1,12 @@
 var tabla = [];
 var data = getData();
 var piezas =[];
+var puntos=0;
 var salud = 200,damage=20;
 PImage vidaIcono;
 Elemento actual;
 var created = false;
-var actualIndex = 1,nivel=0;
+var actualIndex = 1,nivel=4;
 var tablero = [["0","","","","","","","","","","","","","","","","","1"],
 ["2","3","","","","","","","","","","","4","5","6","7","8","9"],
 ["10","11","","","","","","","","","","","12","13","14","15","16","17"],
@@ -18,6 +19,7 @@ void setup(){
   size(1261,1000);
   crearMatriz();
   vidaIcono = loadImage("src/vida.png");
+
   }
 
 void draw(){
@@ -25,26 +27,26 @@ void draw(){
   if(!created){
     llenarMatriz();
     //actual = piezas.shift();
-    actual = elementoRandom()
+    actual = elementoNivel(nivel);
     created = true;
   }
-  if(actual.y>=1000 && salud>0)
+  if(actual.y>=1000 && salud>0){
     salud-=damage;
+    if(puntos>0)
+    puntos-=5;
+  }
   pintarTabla();  
   actual.paint();
   actual.move();
   actual.setVisible();
   textSize(16);
-  vidas(1050,50,salud);
+  vidas(60 ,30,salud);
+  marcador(puntos,1028,0);
   //text("X: " + actual.x + "" + " y: " + actual.y, 1000,100)
   //text("W: " + width + "" + " H: " + height, 1000,100)
 }
 
 //FUNCIONES
-
-void setNivel(){
-
-}
 
 void keyPressed(){
   if(keyCode==LEFT)
@@ -60,12 +62,15 @@ void keyPressed(){
   if(key == ' '){
     let simbol = actual.simbolo;
    if(encontrado((actual.x)+actual.h,actual.y,simbol)){
-      actual.agregar()
-      actual = elementoRandom()
+      actual.agregar();
+      actual = elementoNivel(nivel);
+      puntos+=damage;
    }
     else{
       if(salud>0)
         salud-=damage;
+      if(puntos>0)
+        puntos-=5;
       actual.x = 350;
       actual.y = 0;
     }
@@ -99,8 +104,17 @@ void llenarMatriz(){
     desfaseY =(i*h);
     for(var j =0;j<18;j++){
       if(tablero[i][j]!=""){
-          piezas.push(new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
+        if(nivel<=2){
+          piezas.push(new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
           tabla[i][j] = new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
+        }else if(nivel==3){
+          piezas.push(new Elemento("",data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
+          tabla[i][j] = new Elemento("",data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
+        }else{
+          piezas.push(new Elemento("",data[tablero[i][j]].simbolo,"",data[tablero[i][j]].bloque,x,y,h,0,1));
+          tabla[i][j] = new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0,nivel);
+          tabla[i][j].setVisible()
+        }
       }            
     }
   }
@@ -128,14 +142,29 @@ function vidas(x,y,vida){
   rect(x,y,vida,30);
 }
 
-function marcador(){
+function marcador(points,x,y){
+  textSize(16);
+  fill(0);
+  text("Puntos",x+50,y+50)
+  fill(13, 137, 229 );
+  textSize(22);
+  text(points,x+50,y+72);
 
 }
 
 
 
-function barraProgreso(){
-
+function elementoNivel(nivel){
+  switch(nivel){
+    case 1:
+      return piezas.shift();
+      case 2:
+      case 3:
+      case 4:
+      return elementoRandom();
+      default:
+      break;
+  }
 }
 
 
@@ -149,8 +178,12 @@ function encontrado(x,y,simbolo){
     for(var j = 0;j<18;j++){
       if(tablero[i][j]!=""){
          Elemento elemento = tabla[i][j];
-         if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))&&(elemento.simbolo==simbolo)){
-            elemento.setVisible();
+         if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))&&(elemento.simbolo==simbolo)&&nivel<4){
+              elemento.setVisible();
+            return true;
+         }else if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))&&(elemento.simbolo==simbolo)){
+            elemento.agregar();
+            elemento.simbolo = simbolo;
             return true;
          }
        } 

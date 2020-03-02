@@ -1,5 +1,5 @@
 class Elemento{
-  let h,x,y,dy,dx,nombre,simbolo,numero, visible,agregado;
+  let h,x,y,dy,dx,nombre,simbolo,numero, visible,agregado,nivel;
   Elemento(numero,simbolo,nombre,x,y,h,dx,dy){
     this.numero = numero;
     this.simbolo = simbolo;
@@ -12,7 +12,6 @@ class Elemento{
     this.visible = false;
     this.agregado = false;
   }
-
   Elemento(numero,simbolo,nombre,bloque,x,y,h,dx,dy){
     this.numero = numero;
     this.simbolo = simbolo;
@@ -26,6 +25,21 @@ class Elemento{
     this.visible = false;
     this.agregado = false;
   }
+  Elemento(numero,simbolo,nombre,bloque,x,y,h,dx,dy, nivel){
+    this.numero = numero;
+    this.simbolo = simbolo;
+    this.nombre = nombre;
+    this.bloque = bloque;
+    this.x = x;
+    this.y = y;
+    this.h = h;
+    this.dx = dx;
+    this.dy = dy;
+    this.visible = false;
+    this.agregado = false;
+    this.nivel = nivel;
+  }
+
 
     void paint(){
       textSize(this.h/3);
@@ -52,9 +66,11 @@ class Elemento{
       if(this.visible){
       fill(0)
       textAlign(CENTER);
-      text(this.simbolo,(this.h/2)+this.dx+this.x,(this.y)+this.h/2);
-      textSize(this.h/5);
-      text(parseInt(this.numero)+1,this.x+13+this.dx,this.y+15);
+      if(nivel!=4||agregado){
+        text(this.simbolo,(this.h/2)+this.dx+this.x,(this.y)+this.h/2);
+        textSize(this.h/5);
+        text(this.numero,this.x+13+this.dx,this.y+15);    
+      }
       textSize(this.h/6.55);
       text(this.nombre,(this.h/2)+this.dx+this.x,(this.y)+this.h-10);
       text();
