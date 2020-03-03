@@ -61,12 +61,12 @@ class Elemento{
             fill(252,181,77)
           }
           else
-          fill(255);
+      fill(255);
       rect(this.x+this.dx,this.y,this.h,this.h);
       if(this.visible){
       fill(0)
       textAlign(CENTER);
-      if(nivel!=4||agregado){
+      if((nivel!=4)||agregado){
         text(this.simbolo,(this.h/2)+this.dx+this.x,(this.y)+this.h/2);
         textSize(this.h/5);
         text(this.numero,this.x+13+this.dx,this.y+15);    

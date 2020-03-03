@@ -106,10 +106,10 @@ void llenarMatriz(){
       if(tablero[i][j]!=""){
         if(nivel<=2){
           piezas.push(new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
-          tabla[i][j] = new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
+          tabla[i][j] = new Elemento(areInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
         }else if(nivel==3){
-          piezas.push(new Elemento("",data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
-          tabla[i][j] = new Elemento("",data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
+          piezas.push(new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
+          tabla[i][j] = new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
         }else{
           piezas.push(new Elemento("",data[tablero[i][j]].simbolo,"",data[tablero[i][j]].bloque,x,y,h,0,1));
           tabla[i][j] = new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0,nivel);
