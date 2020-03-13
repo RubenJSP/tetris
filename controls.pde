@@ -1,9 +1,8 @@
-class controls{
+class Controls{
+ 
+ Controls(){
 
-
-
-
-
-
+ }
+ 	
 	
 }

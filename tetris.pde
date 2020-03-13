@@ -19,6 +19,7 @@ void setup(){
   size(1261,1000);
   crearMatriz();
   vidaIcono = loadImage("src/vida.png");
+  frameRate(60);
 
   }
 
@@ -127,10 +128,17 @@ function elementoRandom(){
 }
 
 function vidas(x,y,vida){
+  //vida = 200
   image(vidaIcono,x-55,y-9,45,45);
   stroke(3);
   fill(255);
   rect(x,y,200,30);
+  if(vida>=50 && vida<=100)
+  fill(229, 101, 13);
+  else if(vida<=50){
+  fill(229, 36, 13);
+  }
+  else
   fill(59, 229, 13);
   rect(x,y,vida,30);
 }
