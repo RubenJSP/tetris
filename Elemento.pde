@@ -1,18 +1,7 @@
 class Elemento{
-  let h,x,y,dy,dx,nombre,simbolo,numero, visible,agregado,nivel;
-  Elemento(numero,simbolo,nombre,x,y,h,dx,dy){
-    this.numero = numero;
-    this.simbolo = simbolo;
-    this.nombre = nombre;
-    this.x = x;
-    this.y = y;
-    this.h = h;
-    this.dx = dx;
-    this.dy = dy;
-    this.visible = false;
-    this.agregado = false;
-  }
-  Elemento(numero,simbolo,nombre,bloque,x,y,h,dx,dy){
+  let h,x,y,dy,dx,nombre,simbolo,numero, visible,agregado,nivel, jugable;
+
+  Elemento(numero,simbolo,nombre,bloque,x,y,h,dx,dy,jugable,nivel){
     this.numero = numero;
     this.simbolo = simbolo;
     this.nombre = nombre;
@@ -24,8 +13,10 @@ class Elemento{
     this.dy = dy;
     this.visible = false;
     this.agregado = false;
+    this.jugable  = jugable;
+    this.nivel = nivel;
   }
-  Elemento(numero,simbolo,nombre,bloque,x,y,h,dx,dy, nivel){
+  Elemento(numero,simbolo,nombre,bloque,x,y,h,dx,dy,nivel){
     this.numero = numero;
     this.simbolo = simbolo;
     this.nombre = nombre;
@@ -38,11 +29,12 @@ class Elemento{
     this.visible = false;
     this.agregado = false;
     this.nivel = nivel;
+    this.jugable = false;
   }
-
 
     void paint(){
       textSize(this.h/3);
+    if(nivel!=5||this.jugable){
       if(this.bloque == "nonmetal"){
             fill(141,185,136)
           }else if(this.bloque == "noble gas"){
@@ -60,22 +52,40 @@ class Elemento{
           }else if(this.bloque == "transition metal"){
             fill(252,181,77)
           }
-          else
-      fill(255);
-      rect(this.x+this.dx,this.y,this.h,this.h);
-      if(this.visible){
-      fill(0)
-      textAlign(CENTER);
-      if((nivel!=4)||agregado){
-        text(this.simbolo,(this.h/2)+this.dx+this.x,(this.y)+this.h/2);
-        textSize(this.h/5);
-        text(this.numero,this.x+13+this.dx,this.y+15);    
+          else{
+            fill(255);
+        }
+      }else{
+        fill(255)
       }
-      textSize(this.h/6.55);
-      text(this.nombre,(this.h/2)+this.dx+this.x,(this.y)+this.h-10);
-      text();
+
+      rect(this.x+this.dx,this.y,this.h,this.h);
+      if(!this.jugable){
+        if(this.visible){
+          fill(0)
+          textAlign(CENTER);
+        if(this.nivel!=4){
+          if(this.nivel<3){
+            text(this.simbolo,(this.h/2)+this.dx+this.x,(this.y)+this.h/2);
+            textSize(this.h/5);
+            text(this.numero,this.x+13+this.dx,this.y+15);
+           }
+          textSize(this.h/6.55);
+          text(this.nombre,(this.h/2)+this.dx+this.x,(this.y)+this.h-10);
+        }
+      }
+    }else{
+      fill(0)
+      textAlign(CENTER);        
+      text(this.simbolo,(this.h/2)+this.dx+this.x,(this.y)+this.h/2);
+      textSize(this.h/5);
+      if(this.nivel<3){
+        if(this.nivel!=2)
+        text(this.numero,this.x+13+this.dx,this.y+15);
+        textSize(this.h/6.55);
+        text(this.nombre,(this.h/2)+this.dx+this.x,(this.y)+this.h-10);
+      }
     }
-      //this.move();
   }
 
   void agregar(){

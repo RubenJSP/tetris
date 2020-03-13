@@ -6,7 +6,7 @@ var salud = 200,damage=20;
 PImage vidaIcono;
 Elemento actual;
 var created = false;
-var actualIndex = 1,nivel=4;
+var actualIndex = 1,nivel=5;
 var tablero = [["0","","","","","","","","","","","","","","","","","1"],
 ["2","3","","","","","","","","","","","4","5","6","7","8","9"],
 ["10","11","","","","","","","","","","","12","13","14","15","16","17"],
@@ -104,17 +104,10 @@ void llenarMatriz(){
     desfaseY =(i*h);
     for(var j =0;j<18;j++){
       if(tablero[i][j]!=""){
-        if(nivel<=2){
-          piezas.push(new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
-          tabla[i][j] = new Elemento(areInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
-        }else if(nivel==3){
-          piezas.push(new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1));
-          tabla[i][j] = new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0);
-        }else{
-          piezas.push(new Elemento("",data[tablero[i][j]].simbolo,"",data[tablero[i][j]].bloque,x,y,h,0,1));
-          tabla[i][j] = new Elemento(tablero[i][j],data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0,nivel);
-          tabla[i][j].setVisible()
-        }
+        piezas.push(new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,x,y,h,0,1,true,nivel));
+        tabla[i][j] = new Elemento(parseInt(tablero[i][j])+1,data[tablero[i][j]].simbolo,data[tablero[i][j]].nombre,data[tablero[i][j]].bloque,(j*h),desfaseY+espacio,h,0,0,nivel);
+        if(nivel==3)
+          tabla[i][j].setVisible();
       }            
     }
   }
@@ -161,6 +154,7 @@ function elementoNivel(nivel){
       case 2:
       case 3:
       case 4:
+      case 5:
       return elementoRandom();
       default:
       break;
@@ -178,12 +172,9 @@ function encontrado(x,y,simbolo){
     for(var j = 0;j<18;j++){
       if(tablero[i][j]!=""){
          Elemento elemento = tabla[i][j];
-         if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))&&(elemento.simbolo==simbolo)&&nivel<4){
-              elemento.setVisible();
-            return true;
-         }else if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))&&(elemento.simbolo==simbolo)){
-            elemento.agregar();
-            elemento.simbolo = simbolo;
+         if((x>elemento.x && x<=(elemento.x+elemento.h))&&(y>elemento.y && y<=(elemento.y+elemento.h))&&(elemento.simbolo==simbolo)){
+            elemento.nivel = 1;
+            elemento.setVisible();
             return true;
          }
        } 
