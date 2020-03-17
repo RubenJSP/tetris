@@ -15,6 +15,8 @@ var tablero = [["0","","","","","","","","","","","","","","","","","1"],
 ["54","55","","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85"],
 ["86","87","","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117"]];
 
+const mensaje = () => Swal.fire('Any fool can use a computer');
+
 void setup(){
   size(1261,1000);
   crearMatriz();
@@ -43,11 +45,16 @@ void draw(){
   textSize(16);
   vidas(60 ,30,salud);
   marcador(puntos,1028,0);
+  if(salud<=3){
+    mensaje();
+  }
   //text("X: " + actual.x + "" + " y: " + actual.y, 1000,100)
   //text("W: " + width + "" + " H: " + height, 1000,100)
 }
 
 //FUNCIONES
+
+
 
 void keyPressed(){
   if(keyCode==LEFT)
@@ -169,10 +176,6 @@ function elementoNivel(nivel){
   }
 }
 
-
-function gameOver(){
-
-}
 
 
 function encontrado(x,y,simbolo){
